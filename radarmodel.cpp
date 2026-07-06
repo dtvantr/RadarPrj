@@ -18,6 +18,8 @@ RadarModel::RadarModel(QObject *parent)
     t.x = 100;
     t.y = 50;
 
+    t.type = TargetType::None;
+
     t.latitude =
         m_radarLat +
         t.y / 111320.0;
@@ -55,6 +57,8 @@ QVariantList RadarModel::targets() const
         item["longitude"] = t.longitude;
 
         item["visible"] = t.visible;
+
+        item["type"] = static_cast<int>(t.type);
 
         list.append(item);
     }

@@ -111,7 +111,7 @@ QVector<Target> ProcessManager::parseTargets(
 
         //qDebug() << "PARTS =" << parts;
 
-        if (parts.size() < 3)
+        if (parts.size() < 4)
             continue;
 
         bool ok1;
@@ -119,6 +119,25 @@ QVector<Target> ProcessManager::parseTargets(
         bool ok3;
 
         Target t;
+
+        QString type = parts[3].trimmed().toLower();
+
+        if (type == "danger")
+        {
+            t.type = TargetType::Danger;
+        }
+        else if (type == "safe")
+        {
+            t.type = TargetType::Safe;
+        }
+        else if (type == "considered")
+        {
+            t.type = TargetType::Considered;
+        }
+        else
+        {
+            t.type = TargetType::None;
+        }
 
         t.id =
             parts[0].toInt(&ok1);
@@ -128,6 +147,8 @@ QVector<Target> ProcessManager::parseTargets(
 
         t.y =
             parts[2].toFloat(&ok3);
+
+        type = parts[3];
 
         t.visible = true;
 

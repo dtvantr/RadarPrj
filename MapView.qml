@@ -14,6 +14,11 @@ Item {
     Map {
         id: map
 
+        readonly property int typeNone: 0
+        readonly property int typeSafe: 1
+        readonly property int typeConsidered: 2
+        readonly property int typeDanger: 3
+
         property real sweepOffset: -radarModel.alpha / 2
 
         NumberAnimation on sweepOffset {
@@ -134,17 +139,56 @@ Item {
                         height: 8
                         radius: 4
 
-                        color: modelData.visible
-                                   ? "red"
-                                   : "gray"
+                        color: {
+
+                        // Ngoài vùng quét radar
+                        if (!modelData.visible)
+                        return "gray"
+
+                        // Trong vùng quét
+                        switch (modelData.type)
+                        {
+                        case map.typeSafe:
+                        return "lime"
+
+                        case map.typeConsidered:
+                        return "yellow"
+
+                        case map.typeDanger:
+                        return "red"
+
+                        default:
+                        return "white"
+                        }
+                        }
 
                         border.color: "white"
                         border.width: 1
-                    }
-
+            }
                     Text {
                         text: modelData.id
-                        color: "red"
+
+                        color: {
+
+                        if (!modelData.visible)
+                        return "gray"
+
+                        switch (modelData.type)
+                        {
+                        case map.typeSafe:
+                        return "lime"
+
+                        case map.typeConsidered:
+                        return "yellow"
+
+                        case map.typeDanger:
+                        return "red"
+
+                        default:
+                        return "white"
+                        }
+                        }
+
                         font.pixelSize: 10
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
